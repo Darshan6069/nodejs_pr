@@ -6,6 +6,7 @@ const storeController = require("../controller/stoe_controller");
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/addstore",storeController.addStore);
-router.get("/getallstores",storeController.getStores)
+router.get("/getallstores",storeController.getStores);
+router.get("/:id",storeController.getStoreById)
 
 module.exports = router;

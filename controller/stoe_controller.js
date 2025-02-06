@@ -1,4 +1,6 @@
 const store = require("../model/strore_schema");
+const mongoose = require("mongoose");
+
 
 exports.addStore = async (req, res) => {
     try {
@@ -25,4 +27,25 @@ exports.getStores = async (req,res) => {
         res.status(500).json({ error: "Server error. Please try again." });
       }
 }
+
+
+exports.getStoreById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Store ID format" });
+    }
+
+    const stores = await store.findById(id);
+
+    if (!stores) {
+      return res.status(404).json({ error: "Store not found" });
+    }
+
+    res.status(200).json(stores);
+  } catch (error) {
+    res.status(500).json({ error: "Server error. Please try again." });
+  }
+};
 
