@@ -4,6 +4,7 @@ const { mongoDbConnection } = require("./view/mongodb_connection");
 const authRoutes = require("./routes/auth_routes");
 
 
+
 const app = express();
 const port = 8000; 
 
@@ -15,7 +16,8 @@ mongoDbConnection("mongodb://localhost:27017/nodejs_ex", {
 });
 
 
-app.use("/api/auth", authRoutes);
+app.use("/user", authRoutes);
+app.use("/stores",authRoutes);
 
 app.listen(port,() =>
   console.log(`Server started at http://localhost:${port}`)
