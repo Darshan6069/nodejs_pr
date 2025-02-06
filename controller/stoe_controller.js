@@ -49,3 +49,30 @@ exports.getStoreById = async (req, res) => {
   }
 };
 
+exports.addItemToStore = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { itemId, name, rating, price } = req.body;
+
+    if (!itemId || !name || !rating || !price) {
+      return res
+        .status(400)
+        .json({ error: "Item ID, name, rating, and price are required." });
+    }
+
+    const store = await Store.findById(id);
+    if (!store) {
+      return res.status(404).json({ error: "Store not found." });
+    }
+
+    const newItem = { id: itemId, name, rating, price };
+    store.items.push(newItem);
+    const updatedStore = await store.save();
+
+    res
+      .status(201)
+      .json({ message: "Item added successfully!", store: updatedStore });
+  } catch (error) {
+    res.status(500).json({ error: "Server error. Please try again." });
+  }
+};
